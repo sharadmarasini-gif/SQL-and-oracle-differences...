@@ -1,0 +1,172 @@
+# MySQL to Oracle SQL Conversion
+
+**Author:** Sharad Marasini
+**Module:** CIS095-1 Database Systems
+
+## Project Overview
+
+This repository demonstrates the conversion of a relational database script from **MySQL syntax to Oracle SQL syntax**.
+The project includes basic database operations such as:
+
+* Table creation
+* Data insertion
+* Queries
+* Joins
+* Updates
+* Deletes
+* Table alteration
+
+The original script was written in **MySQL**, and then converted to **Oracle SQL** while keeping the database structure and functionality the same.
+
+---
+
+# Repository Structure
+
+```
+/database-project
+│
+├── mysql_version.sql
+├── oracle_version.sql
+└── README.md
+```
+
+* **mysql_version.sql** → Original MySQL script
+* **oracle_version.sql** → Converted Oracle script
+* **README.md** → Explanation of syntax differences
+
+---
+
+# Key Differences Between MySQL and Oracle
+
+## 1. Database Creation
+
+### MySQL
+
+```sql
+CREATE DATABASE COMPANYDB;
+USE COMPANYDB;
+```
+
+### Oracle
+
+Oracle databases are created by administrators, so these commands are **not used** in SQL scripts.
+
+---
+
+# 2. Data Types
+
+| MySQL    | Oracle   |
+| -------- | -------- |
+| INT      | NUMBER   |
+| VARCHAR  | VARCHAR2 |
+| TEXT     | CLOB     |
+| DATETIME | DATE     |
+
+Example conversion:
+
+### MySQL
+
+```sql
+DNUMBER INT PRIMARY KEY
+```
+
+### Oracle
+
+```sql
+DNUMBER NUMBER PRIMARY KEY
+```
+
+---
+
+# 3. Date Format
+
+### MySQL
+
+```sql
+'2022-01-10'
+```
+
+### Oracle
+
+```sql
+DATE '2022-01-10'
+```
+
+---
+
+# 4. Insert Multiple Rows
+
+### MySQL
+
+```sql
+INSERT INTO DEPARTMENT VALUES
+('HR',1,'1001','2022-01-10'),
+('IT',2,'1002','2021-03-15');
+```
+
+### Oracle
+
+```sql
+INSERT INTO DEPARTMENT VALUES ('HR',1,'1001',DATE '2022-01-10');
+INSERT INTO DEPARTMENT VALUES ('IT',2,'1002',DATE '2021-03-15');
+```
+
+---
+
+# 5. Drop Database vs Drop Tables
+
+### MySQL
+
+```sql
+DROP DATABASE COMPANYDB;
+```
+
+### Oracle
+
+```sql
+DROP TABLE EMPLOYEE CASCADE CONSTRAINTS;
+DROP TABLE DEPARTMENT CASCADE CONSTRAINTS;
+```
+
+---
+
+# 6. Commit Changes
+
+Oracle requires an explicit **COMMIT** to permanently save changes.
+
+```sql
+COMMIT;
+```
+
+---
+
+# Example Query (Works in Both)
+
+```sql
+SELECT 
+    e.FNAME,
+    e.LNAME,
+    d.DNAME
+FROM EMPLOYEE e
+JOIN DEPARTMENT d
+ON e.DNO = d.DNUMBER;
+```
+
+This query retrieves employee names along with their department.
+
+---
+
+# Conclusion
+
+This project demonstrates how SQL scripts written for MySQL can be adapted to work in Oracle databases.
+Although both systems use SQL, there are several syntax differences, especially in:
+
+* Database creation
+* Data types
+* Date formats
+* Insert statements
+* Transaction management
+
+Understanding these differences is important when migrating databases between systems.
+
+---
