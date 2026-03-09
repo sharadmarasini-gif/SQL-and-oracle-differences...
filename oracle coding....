@@ -1,0 +1,129 @@
+/*
+====================================================
+ COMPANY DATABASE PROJECT
+ Author: Sharad Marasini
+ Oracle SQL Version
+====================================================
+*/
+
+-- ============================================
+-- 1. DROP TABLES (Oracle way)
+-- ============================================
+
+DROP TABLE EMPLOYEE CASCADE CONSTRAINTS;
+DROP TABLE DEPARTMENT CASCADE CONSTRAINTS;
+
+-- ============================================
+-- 2. CREATE TABLE: DEPARTMENT
+-- ============================================
+
+CREATE TABLE DEPARTMENT(
+    DNAME VARCHAR2(20) NOT NULL,
+    DNUMBER NUMBER PRIMARY KEY,
+    MGRSSN VARCHAR2(15),
+    MGRSTARTDATE DATE
+);
+
+-- ============================================
+-- 3. CREATE TABLE: EMPLOYEE
+-- ============================================
+
+CREATE TABLE EMPLOYEE (
+    SSN VARCHAR2(15) PRIMARY KEY,
+    FNAME VARCHAR2(20) NOT NULL,
+    MINIT CHAR(1),
+    LNAME VARCHAR2(15) NOT NULL,
+    BDATE DATE,
+    ADDRESS VARCHAR2(100),
+    SEX CHAR(1),
+    SALARY NUMBER CHECK (SALARY > 0),
+    SUPERSSN VARCHAR2(15),
+    DNO NUMBER,
+    CONSTRAINT FK_DEPT
+        FOREIGN KEY (DNO)
+        REFERENCES DEPARTMENT(DNUMBER)
+);
+
+-- ============================================
+-- 4. INSERT DATA INTO DEPARTMENT
+-- ============================================
+
+INSERT INTO DEPARTMENT VALUES 
+('HR', 1, '1001', DATE '2022-01-10');
+
+INSERT INTO DEPARTMENT VALUES 
+('IT', 2, '1002', DATE '2021-03-15');
+
+INSERT INTO DEPARTMENT VALUES 
+('Finance', 3, '1003', DATE '2020-07-01');
+
+-- ============================================
+-- 5. INSERT DATA INTO EMPLOYEE
+-- ============================================
+
+INSERT INTO EMPLOYEE VALUES
+('1001', 'Ram', 'K', 'Sharma', DATE '1985-05-10', 'Kathmandu', 'M', 60000, NULL, 1);
+
+INSERT INTO EMPLOYEE VALUES
+('1002', 'Sita', 'L', 'Thapa', DATE '1990-08-20', 'Pokhara', 'F', 75000, '1001', 2);
+
+INSERT INTO EMPLOYEE VALUES
+('1003', 'Hari', 'M', 'Gurung', DATE '1982-11-15', 'Lalitpur', 'M', 80000, '1001', 3);
+
+INSERT INTO EMPLOYEE VALUES
+('1004', 'Anita', 'R', 'Karki', DATE '1995-02-18', 'Bhaktapur', 'F', 50000, '1002', 2);
+
+-- ============================================
+-- 6. SELECT ALL DATA
+-- ============================================
+
+SELECT * FROM DEPARTMENT;
+SELECT * FROM EMPLOYEE;
+
+-- ============================================
+-- 7. INNER JOIN (Employee + Department)
+-- ============================================
+
+SELECT 
+    e.FNAME AS FirstName,
+    e.LNAME AS LastName,
+    e.SALARY AS Salary,
+    d.DNAME AS DepartmentName
+FROM EMPLOYEE e
+JOIN DEPARTMENT d
+ON e.DNO = d.DNUMBER;
+
+-- ============================================
+-- 8. UPDATE EXAMPLE
+-- ============================================
+
+UPDATE EMPLOYEE
+SET SALARY = 85000
+WHERE SSN = '1003';
+
+-- ============================================
+-- 9. DELETE EXAMPLE
+-- ============================================
+
+DELETE FROM EMPLOYEE
+WHERE SSN = '1004';
+
+-- ============================================
+-- 10. ALTER TABLE EXAMPLE
+-- ============================================
+
+ALTER TABLE EMPLOYEE
+ADD EMAIL VARCHAR2(50);
+
+-- ============================================
+-- 11. COMMIT (Oracle usually requires commit)
+-- ============================================
+
+COMMIT;
+
+-- ============================================
+-- 12. DROP TABLE EXAMPLE (Optional)
+-- ============================================
+
+-- DROP TABLE EMPLOYEE CASCADE CONSTRAINTS;
+-- DROP TABLE DEPARTMENT CASCADE CONSTRAINTS;
